@@ -1,0 +1,13 @@
+[
+  {
+    "name": "default",
+    "type": "mongodb",
+    "host": "localhost",
+    "port": 27017,
+    "database": "integra",
+    "entities": [
+      "./src/schemas/*.ts"
+    ],
+    "useUnifiedTopology": true
+  }
+]
