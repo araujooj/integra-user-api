@@ -27,6 +27,9 @@ class Order {
   @Column({ default: false })
   withdrawl: boolean;
 
+  @Column()
+  totalItens: number;
+
   @CreateDateColumn()
   created_at: Date;
 

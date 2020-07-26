@@ -9,6 +9,7 @@ interface Request {
   products: Product[];
   withdrawl: boolean;
   subtotal: number;
+  totalItens: number;
 }
 
 class CreateOrderService {
@@ -17,7 +18,8 @@ class CreateOrderService {
     address,
     products,
     withdrawl,
-    subtotal
+    subtotal,
+    totalItens
   }: Request): Promise<Order> {
     const orderRepository = getMongoRepository(Order);
 
@@ -26,7 +28,8 @@ class CreateOrderService {
       address,
       products,
       withdrawl,
-      subtotal
+      subtotal,
+      totalItens
     });
 
     await orderRepository.save(order);

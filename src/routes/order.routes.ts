@@ -13,8 +13,24 @@ orderRouter.get('/', async (request, response) => {
   return response.json(orders);
 });
 
+orderRouter.get('/:id', async (request, response) => {
+  const { id } = request.params;
+  const OrderRepository = getMongoRepository(Order);
+
+  const orders = await OrderRepository.findOne(id);
+
+  return response.json(orders);
+});
+
 orderRouter.post('/', async (request, response) => {
-  const { username, address, products, withdrawl, subtotal } = request.body;
+  const {
+    username,
+    address,
+    products,
+    withdrawl,
+    subtotal,
+    totalItens
+  } = request.body;
 
   const createOrder = new CreateOrderService();
 
@@ -23,7 +39,8 @@ orderRouter.post('/', async (request, response) => {
     address,
     products,
     withdrawl,
-    subtotal
+    subtotal,
+    totalItens
   });
 
   return response.status(204).json();
