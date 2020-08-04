@@ -30,6 +30,9 @@ class Order {
   @Column()
   totalItens: number;
 
+  @Column()
+  paymentMethod: string;
+
   @CreateDateColumn()
   created_at: Date;
 

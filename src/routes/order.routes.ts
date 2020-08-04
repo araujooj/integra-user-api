@@ -29,7 +29,8 @@ orderRouter.post('/', async (request, response) => {
     products,
     withdrawl,
     subtotal,
-    totalItens
+    totalItens,
+    paymentMethod
   } = request.body;
 
   const createOrder = new CreateOrderService();
@@ -40,7 +41,8 @@ orderRouter.post('/', async (request, response) => {
     products,
     withdrawl,
     subtotal,
-    totalItens
+    totalItens,
+    paymentMethod
   });
 
   return response.status(204).json();
