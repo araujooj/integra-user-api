@@ -2,13 +2,20 @@ import { Router } from 'express';
 import { getMongoRepository } from 'typeorm';
 import Order from '../schemas/Order';
 import CreateOrderService from '../services/CreateOrderService';
+import ensureAuth from '../middlewares/ensureAuth';
 
 const orderRouter = Router();
+
+orderRouter.use(ensureAuth);
 
 orderRouter.get('/', async (request, response) => {
   const OrderRepository = getMongoRepository(Order);
 
-  const orders = await OrderRepository.find();
+  const orders = await OrderRepository.find({
+    where: {
+      user_id: request.user.id
+    }
+  });
 
   return response.json(orders);
 });
@@ -24,7 +31,6 @@ orderRouter.get('/:id', async (request, response) => {
 
 orderRouter.post('/', async (request, response) => {
   const {
-    username,
     address,
     products,
     withdrawl,
@@ -35,8 +41,8 @@ orderRouter.post('/', async (request, response) => {
 
   const createOrder = new CreateOrderService();
 
-  createOrder.execute({
-    username,
+  await createOrder.execute({
+    user_id: request.user.id,
     address,
     products,
     withdrawl,

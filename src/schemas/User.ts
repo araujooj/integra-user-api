@@ -3,8 +3,10 @@ import {
   Column,
   ObjectIdColumn,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  OneToMany
 } from 'typeorm';
+import Order from './Order';
 
 @Entity('users')
 class User {
@@ -19,6 +21,12 @@ class User {
 
   @Column()
   password: string;
+
+  @OneToMany(() => Order, order => order.user)
+  orders: Order;
+
+  @Column()
+  addresses: Address[];
 
   @CreateDateColumn()
   created_at: Date;

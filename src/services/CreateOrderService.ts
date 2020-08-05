@@ -4,7 +4,7 @@ import { getMongoRepository } from 'typeorm';
 import Order from '../schemas/Order';
 
 interface Request {
-  username: string;
+  user_id: string;
   address?: string;
   products: Product[];
   withdrawl: boolean;
@@ -15,7 +15,7 @@ interface Request {
 
 class CreateOrderService {
   public async execute({
-    username,
+    user_id,
     address,
     products,
     withdrawl,
@@ -26,7 +26,7 @@ class CreateOrderService {
     const orderRepository = getMongoRepository(Order);
 
     const order = orderRepository.create({
-      username,
+      user_id,
       address,
       products,
       withdrawl,

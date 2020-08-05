@@ -6,14 +6,15 @@ import ensureAuth from '../middlewares/ensureAuth';
 const userRouter = Router();
 
 userRouter.post('/', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, addresses } = req.body;
 
   const createUser = new CreateUserService();
 
   const user = await createUser.execute({
     name,
     email,
-    password
+    password,
+    addresses
   });
 
   delete user.password;

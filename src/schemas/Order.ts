@@ -4,16 +4,20 @@ import {
   Entity,
   ObjectID,
   ObjectIdColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  ManyToOne
 } from 'typeorm';
+import User from './User';
 
 @Entity('orders')
 class Order {
   @ObjectIdColumn()
   id: ObjectID;
 
-  @Column()
-  username: string;
+  @ManyToOne(() => User, user => user.orders, {
+    eager: true
+  })
+  user: User;
 
   @Column()
   address?: string;
@@ -32,6 +36,9 @@ class Order {
 
   @Column()
   paymentMethod: string;
+
+  @Column()
+  user_id: string;
 
   @CreateDateColumn()
   created_at: Date;

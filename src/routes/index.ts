@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import orderRouter from './order.routes';
 import userRouter from './user.routes';
+import sessionRouter from './session.routes';
 
 const routes = Router();
 
