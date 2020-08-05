@@ -3,17 +3,17 @@ import { getMongoRepository } from 'typeorm';
 import Order from '../schemas/Order';
 import CreateOrderService from '../services/CreateOrderService';
 import ensureAuth from '../middlewares/ensureAuth';
+import UpdateStatusOrderService from '../services/UpdateStatusOrderService';
 
 const orderRouter = Router();
 
-orderRouter.use(ensureAuth);
-
-orderRouter.get('/', async (request, response) => {
+orderRouter.get('/:market_id', async (request, response) => {
+  const { market_id } = request.params;
   const OrderRepository = getMongoRepository(Order);
 
   const orders = await OrderRepository.find({
     where: {
-      user_id: request.user.id
+      market_id
     }
   });
 
@@ -29,6 +29,34 @@ orderRouter.get('/:id', async (request, response) => {
   return response.json(orders);
 });
 
+orderRouter.put('/:id', async (request, response) => {
+  const { id } = request.params;
+  const { status } = request.body;
+
+  const updateOrder = new UpdateStatusOrderService();
+
+  await updateOrder.execute({
+    id,
+    status
+  });
+
+  return response.json(updateOrder);
+});
+
+orderRouter.use(ensureAuth);
+
+orderRouter.get('/', async (request, response) => {
+  const OrderRepository = getMongoRepository(Order);
+
+  const orders = await OrderRepository.find({
+    where: {
+      user_id: request.user.id
+    }
+  });
+
+  return response.json(orders);
+});
+
 orderRouter.post('/', async (request, response) => {
   const {
     address,
@@ -36,7 +64,8 @@ orderRouter.post('/', async (request, response) => {
     withdrawl,
     subtotal,
     totalItens,
-    paymentMethod
+    paymentMethod,
+    market_id
   } = request.body;
 
   const createOrder = new CreateOrderService();
@@ -48,7 +77,9 @@ orderRouter.post('/', async (request, response) => {
     withdrawl,
     subtotal,
     totalItens,
-    paymentMethod
+    paymentMethod,
+    status: 'Pedido Recebido',
+    market_id
   });
 
   return response.status(204).json();

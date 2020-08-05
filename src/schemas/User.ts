@@ -22,11 +22,14 @@ class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Order, order => order.user)
-  orders: Order;
+  @Column()
+  cellphone: string;
 
   @Column()
   addresses: Address[];
+
+  @OneToMany(() => Order, order => order.user)
+  orders: Order;
 
   @CreateDateColumn()
   created_at: Date;

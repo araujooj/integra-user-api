@@ -8,6 +8,7 @@ interface Request {
   email: string;
   password: string;
   addresses: Address[];
+  cellphone: string;
 }
 
 export default class CreateUserService {
@@ -15,7 +16,8 @@ export default class CreateUserService {
     name,
     email,
     password,
-    addresses
+    addresses,
+    cellphone
   }: Request): Promise<User> {
     const userRepository = getMongoRepository(User);
 
@@ -33,7 +35,8 @@ export default class CreateUserService {
       name,
       email,
       password: hashedPassword,
-      addresses
+      addresses,
+      cellphone
     });
 
     await userRepository.save(user);

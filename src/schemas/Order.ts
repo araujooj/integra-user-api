@@ -20,7 +20,7 @@ class Order {
   user: User;
 
   @Column()
-  address?: string;
+  address?: Address;
 
   @Column()
   products: Product[];
@@ -38,7 +38,13 @@ class Order {
   paymentMethod: string;
 
   @Column()
+  status: string;
+
+  @Column()
   user_id: string;
+
+  @Column()
+  market_id: string;
 
   @CreateDateColumn()
   created_at: Date;

@@ -5,12 +5,14 @@ import Order from '../schemas/Order';
 
 interface Request {
   user_id: string;
-  address?: string;
+  address?: Address;
   products: Product[];
   withdrawl: boolean;
   subtotal: number;
   totalItens: number;
   paymentMethod: string;
+  status: string;
+  market_id: string;
 }
 
 class CreateOrderService {
@@ -21,7 +23,9 @@ class CreateOrderService {
     withdrawl,
     subtotal,
     totalItens,
-    paymentMethod
+    paymentMethod,
+    status,
+    market_id
   }: Request): Promise<Order> {
     const orderRepository = getMongoRepository(Order);
 
@@ -32,7 +36,9 @@ class CreateOrderService {
       withdrawl,
       subtotal,
       totalItens,
-      paymentMethod
+      paymentMethod,
+      status,
+      market_id
     });
 
     await orderRepository.save(order);

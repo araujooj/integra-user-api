@@ -1,4 +1,4 @@
-import { getRepository, getMongoRepository } from 'typeorm';
+import { getMongoRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import User from '../schemas/User';
