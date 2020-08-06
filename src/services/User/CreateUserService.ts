@@ -1,4 +1,5 @@
 import { getMongoRepository } from 'typeorm';
+import { uuid } from 'uuidv4';
 import { hash } from 'bcryptjs';
 import User from '../../schemas/User';
 import AppError from '../../errors/AppError';
@@ -30,6 +31,10 @@ export default class CreateUserService {
     }
 
     const hashedPassword = await hash(password, 8);
+
+    addresses.forEach((item, i) => {
+      item.id = i + uuid();
+    });
 
     const user = userRepository.create({
       name,

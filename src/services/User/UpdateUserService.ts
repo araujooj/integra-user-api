@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import { getMongoRepository } from 'typeorm';
+import { uuid } from 'uuidv4';
 import AppError from '../../errors/AppError';
 import User from '../../schemas/User';
 import BCryptHashProvider from '../../providers/HashProvider/BCryptHashProvider';
@@ -50,9 +51,12 @@ export default class UpdateUserService {
       user.password = await hashProvider.generateHash(password);
     }
 
-    name ? (user.name = name) : user.name;
+    if (address) {
+      address.id = uuid();
+      user.addresses.push(address);
+    }
 
-    address ? user.addresses.push(address) : user.addresses;
+    name ? (user.name = name) : user.name;
 
     cellphone ? (user.cellphone = cellphone) : user.cellphone;
 

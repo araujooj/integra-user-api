@@ -81,7 +81,7 @@ orderRouter.post('/', async (request, response) => {
 
   const createOrder = new CreateOrderService();
 
-  await createOrder.execute({
+  const order = await createOrder.execute({
     user_id: request.user.id,
     address: userAddress[0],
     products,
@@ -93,7 +93,7 @@ orderRouter.post('/', async (request, response) => {
     market_id
   });
 
-  return response.status(204).json();
+  return response.json(order);
 });
 
 export default orderRouter;
