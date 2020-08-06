@@ -1,7 +1,7 @@
 import { getMongoRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
-import User from '../schemas/User';
-import AppError from '../errors/AppError';
+import User from '../../schemas/User';
+import AppError from '../../errors/AppError';
 
 interface Request {
   name: string;

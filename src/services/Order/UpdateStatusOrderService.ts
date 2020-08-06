@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import { getMongoRepository } from 'typeorm';
-import AppError from '../errors/AppError';
-import Order from '../schemas/Order';
+import AppError from '../../errors/AppError';
+import Order from '../../schemas/Order';
 
 interface Request {
   id: string;

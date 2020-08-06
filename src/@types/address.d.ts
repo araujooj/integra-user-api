@@ -1,4 +1,6 @@
 interface Address {
+  id: string;
+
   name: string;
 
   active: boolean;

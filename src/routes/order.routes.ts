@@ -1,13 +1,15 @@
 import { Router } from 'express';
-import { getMongoRepository } from 'typeorm';
+import { getMongoRepository, getRepository } from 'typeorm';
 import Order from '../schemas/Order';
-import CreateOrderService from '../services/CreateOrderService';
+import CreateOrderService from '../services/Order/CreateOrderService';
 import ensureAuth from '../middlewares/ensureAuth';
-import UpdateStatusOrderService from '../services/UpdateStatusOrderService';
+import UpdateStatusOrderService from '../services/Order/UpdateStatusOrderService';
+import User from '../schemas/User';
+import AppError from '../errors/AppError';
 
 const orderRouter = Router();
 
-orderRouter.get('/:market_id', async (request, response) => {
+orderRouter.get('/markets/:market_id', async (request, response) => {
   const { market_id } = request.params;
   const OrderRepository = getMongoRepository(Order);
 
@@ -59,7 +61,6 @@ orderRouter.get('/', async (request, response) => {
 
 orderRouter.post('/', async (request, response) => {
   const {
-    address,
     products,
     withdrawl,
     subtotal,
@@ -68,11 +69,21 @@ orderRouter.post('/', async (request, response) => {
     market_id
   } = request.body;
 
+  const userRepository = getMongoRepository(User);
+
+  const user = await userRepository.findOne(request.user.id);
+
+  if (!user) {
+    throw new AppError('Inform a real user');
+  }
+
+  const userAddress = user.addresses.filter(ad => ad.active === true);
+
   const createOrder = new CreateOrderService();
 
   await createOrder.execute({
     user_id: request.user.id,
-    address,
+    address: userAddress[0],
     products,
     withdrawl,
     subtotal,

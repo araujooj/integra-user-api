@@ -1,7 +1,7 @@
 // import AppError from '../errors/AppError';
 
 import { getMongoRepository } from 'typeorm';
-import Order from '../schemas/Order';
+import Order from '../../schemas/Order';
 
 interface Request {
   user_id: string;
